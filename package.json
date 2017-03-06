@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/a7medkamel/taskmill-code-disk#readme",
   "dependencies": {
+    "app-module-path": "^2.2.0",
     "bluebird": "^3.4.7",
     "lodash": "^4.17.4"
   }
