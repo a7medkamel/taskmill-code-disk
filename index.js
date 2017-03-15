@@ -24,7 +24,7 @@ Code.prototype.run = function(req, res, next) {
               , _filename = path.resolve('/mnt/src/', filename)
               ;
 
-            // if (!blob) {
+            if (!blob) {
               return Promise
                       .try(() => {
                         return require(_filename);
@@ -33,7 +33,7 @@ Code.prototype.run = function(req, res, next) {
                         console.error(err);
                         throw new Error(`module not found: ${filename}`);
                       });
-            // }
+            }
 
             // todo [akamel] require might have wrong lookup paths
             let context   = vm.createContext(_.defaults({ module : {}, require : require, __dirname : _dirname, __filename : _filename }, global))
