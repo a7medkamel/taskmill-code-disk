@@ -45,9 +45,6 @@ Code.prototype.run = function(req, res, next) {
 
             return context.module.exports;
           })
-          .catchThrow((err) => {
-            console.error(err);
-          })
           .then((fct) => {
             if (_.isFunction(fct)) {
               return fct.call(req.app, req, res, next);
