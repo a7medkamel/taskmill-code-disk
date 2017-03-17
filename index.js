@@ -1,7 +1,6 @@
 var _       = require('lodash')
   , Promise = require('bluebird')
   , path    = require('path')
-  , vm      = require('vm')
   , amp     = require('app-module-path')
   ;
 
@@ -20,30 +19,16 @@ Code.prototype.run = function(req, res, next) {
     // todo [akamel] exception here doesn't return err to browser
   return Promise
           .try(() => {
-            let _dirname  = path.resolve('/mnt/src/', path.dirname(filename))
-              , _filename = path.resolve('/mnt/src/', filename)
-              ;
+            let _filename = path.resolve('/mnt/src/', filename);
 
-            if (!blob) {
-              return Promise
-                      .try(() => {
-                        return require(_filename);
-                      })
-                      .catch((err) => {
-                        console.error(err);
-                        throw new Error(`module not found: ${filename}`);
-                      });
-            }
-
-            // todo [akamel] require might have wrong lookup paths
-            let context   = vm.createContext(_.defaults({ module : {}, require : require, __dirname : _dirname, __filename : _filename }, global))
-              , script    = new vm.Script(blob, { filename : _filename })
-              ;
-
-            // todo [akamel] can throw 'Script execution timed out.' explain to user / otherwise hard to understand
-            script.runInContext(context, { timeout : 2000 });
-
-            return context.module.exports;
+            return Promise
+                    .try(() => {
+                      return require(_filename);
+                    });
+                    // .catch((err) => {
+                    //   console.error(err);
+                    //   throw new Error(`module not found: ${filename}`);
+                    // });
           })
           .then((fct) => {
             if (_.isFunction(fct)) {
