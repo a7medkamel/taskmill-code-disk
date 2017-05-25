@@ -7,6 +7,7 @@ var _       = require('lodash')
   , fse     = require('fs-extra')
   , viz     = require('viz.js')
   , dot     = require('dotparser')
+  , pug     = require('pug')
   ;
 
 // do this once
@@ -80,66 +81,8 @@ Code.prototype.run = function(req, res, next) {
                           return Promise
                                   .fromCallback((cb) => marked(text, options, cb))
                                   .then((part) => {
-                                    return `<html>
-                                              <head>
-                                                <style>
-                                                  @import url("https://rawgit.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css");
-                                                  @import url("https://rawgit.com/isagalaev/highlight.js/master/src/styles/github.css");
-
-                                                  @import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
-
-                                                  body {
-                                                    box-sizing: border-box;
-                                                    min-width: 200px;
-                                                    max-width: 980px;
-                                                    margin: 0 auto;
-                                                    padding: 45px;
-                                                  }
-
-                                                  ul {
-                                                    margin: 0;
-                                                  }
-
-                                                  body { padding-bottom: 70px; }
-                                                </style>
-                                                <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-                                                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-                                                <script>
-                                                  $(function(){
-                                                    let elm = $('#flow-run');
-
-
-                                                    
-                                                    // window.dot = elm.find('pre').text();
-
-                                                    elm.click(function(e) {
-                                                      e.preventDefault();
-
-                                                      $.post({
-                                                          url : 'http://' + window.location.hostname + ':8030' + window.location.pathname
-                                                      });
-                                                      // console.log(window.dot);
-                                                    });
-                                                  })
-                                                </script>
-                                              </head>
-                                              <body class='markdown-body'>
-                                                ${part}
-                                                <pre style='display:block;'>${JSON.stringify(parsed, null, ' ')}</pre>
-                                                <nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
-                                                  <div class="container">
-                                                    <div class="navbar-header">
-                                                      <a class="navbar-brand" href="#">Breadboard</a>
-                                                    </div>
-                                                    <ul class="nav navbar-nav navbar-right">
-                                                      <li><button id="flow-run" type="button" class="btn btn-default navbar-btn">Run</button></li>
-                                                    </ul>
-                                                  </div>
-                                                </nav>
-                                              </body>
-                                            </html>`;
-                                  })
-                                  ;
+                                    return pug.renderFile(path.join(__dirname, './view/markdown.pug'), { markdown : part })
+                                  });
                         })
                         .then((html) => res.send(html));
               break;

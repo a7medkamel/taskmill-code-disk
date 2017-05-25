@@ -1,0 +1,55 @@
+head
+  style.
+    @import url("https://rawgit.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css");
+    @import url("https://rawgit.com/isagalaev/highlight.js/master/src/styles/github.css");
+    @import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+
+    ul {
+      margin: 0;
+    }
+
+    body { padding-bottom: 70px; }
+  script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min.js' integrity='sha256-4FF6zC8o0//sei6CJUD+MJIhewXKgcrV/iA/4HD4A8c=' crossorigin='anonymous')
+  //- todo [akamel] point to production js
+  script(src='http://localhost:1337/js/config/require.config.js')
+  script.
+    requirejs.config({
+      baseUrl: 'http://localhost:1337/js'
+    });
+
+    require([ 'module/lib/script/embed' ], function(embed){
+      $(function(){
+        embed.build();
+      });
+    });
+    
+  script.
+    $(function(){
+      let elm = $('#flow-run');
+      // window.dot = elm.find('pre').text();
+      elm.click(function(e) {
+        e.preventDefault();
+        $.post({
+          url : 'http://' + window.location.hostname + ':8030/flow' + window.location.pathname
+        });
+        // console.log(window.dot);
+      });
+    })
+body
+  != markdown
+  nav.navbar.navbar-default.navbar-fixed-bottom.navbar-inverse
+    .container
+      .navbar-header
+        a.navbar-brand(href='#') Breadboard
+      ul.nav.navbar-nav.navbar-right
+        li
+          button#flow-run.btn.btn-default.navbar-btn(type='button') Run
