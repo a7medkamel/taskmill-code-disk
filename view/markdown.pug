@@ -2,7 +2,8 @@ head
   style.
     @import url("https://rawgit.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css");
     @import url("https://rawgit.com/isagalaev/highlight.js/master/src/styles/github.css");
-    @import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+    @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css");
+
     body {
       box-sizing: border-box;
       min-width: 200px;
@@ -14,15 +15,23 @@ head
     ul {
       margin: 0;
     }
+    
+    pre {
+      border: 1px solid #e1e4e8;
+      border-radius: 3px;
+      padding: 10px;
+    }
 
     body { padding-bottom: 70px; }
+    
   script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
-  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', integrity='sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa', crossorigin='anonymous')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js', integrity='sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb', crossorigin='anonymous')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js', integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn', crossorigin='anonymous')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min.js' integrity='sha256-4FF6zC8o0//sei6CJUD+MJIhewXKgcrV/iA/4HD4A8c=' crossorigin='anonymous')
   //- todo [akamel] point to production js
   script(src='http://localhost:1337/js/config/require.config.js')
   script.
-    requirejs.config({
+    /*requirejs.config({
       baseUrl: 'http://localhost:1337/js'
     });
 
@@ -30,7 +39,7 @@ head
       $(function(){
         embed.build();
       });
-    });
+    });*/
     
   script.
     $(function(){
@@ -45,11 +54,14 @@ head
       });
     })
 body
+  nav.navbar.navbar-toggleable-md.navbar-light.bg-faded.sticky-top
+    button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNavAltMarkup', aria-controls='navbarNavAltMarkup', aria-expanded='false', aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    a.navbar-brand(href='#') Breadboard Flow
+    #navbarNavAltMarkup.collapse.navbar-collapse
+      .navbar-nav
+        ul.navbar-nav.mr-auto
+        form.form-inline.my-2.my-lg-0
+          button#flow-run.btn.btn-outline-success(type='button') Run
+
   != markdown
-  nav.navbar.navbar-default.navbar-fixed-bottom.navbar-inverse
-    .container
-      .navbar-header
-        a.navbar-brand(href='#') Breadboard
-      ul.nav.navbar-nav.navbar-right
-        li
-          button#flow-run.btn.btn-default.navbar-btn(type='button') Run

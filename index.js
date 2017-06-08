@@ -48,7 +48,7 @@ Code.prototype.run = function(req, res, next) {
                 let fct = require(_filename);
 
                 if (_.isFunction(fct)) {
-                  return fct.call(req.app, req, res, next);
+                  return fct(req, res, next);
                 } else {
                   let err = new Error('module.exports not set to a function');
                   err.help_url = 'https://taskmill.io/help';
