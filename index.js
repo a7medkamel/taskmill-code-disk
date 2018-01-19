@@ -3,7 +3,6 @@
 var _       = require('lodash')
   , Promise = require('bluebird')
   , path    = require('path')
-  , amp     = require('app-module-path')
   , mime    = require('mime-types')
   , marked  = require('marked')
   , fse     = require('fs-extra')
@@ -12,9 +11,6 @@ var _       = require('lodash')
   , pug     = require('pug')
   , man     = require('taskmill-core-man')
   ;
-
-// do this once
-amp.addPath(path.join(process.cwd(), 'node_modules'));
 
 // Synchronous highlighting with highlight.js
 marked.setOptions({
